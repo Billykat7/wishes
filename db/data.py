@@ -20,7 +20,7 @@ class JSONData(Thread):
 
     @staticmethod
     def extract_employee_data():
-        with open(f"db/employeesZ.json") as employees_file:
+        with open(f"db/employees.json") as employees_file:
             employees = json.load(employees_file)
             return employees
 

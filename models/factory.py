@@ -43,23 +43,23 @@ class GetInput:
     def get_input_redirect(self):
 
         #TODO: TO REQUEST API ENDPOINT
-        # data_api      = self.call_real_endpoint()
-        # employees_api = data_api['employees']
-        # employees     = employees_api
+        data_api      = self.call_real_endpoint()
+        employees_api = data_api['employees']
+        employees     = employees_api
 
         self.employees_local = []
-        if path.isfile('db/employeesZ.json'):
+        if path.isfile('db/employees.json'):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data()
-            employees = self.employees_local
+            # employees = self.employees_local
 
         # BIRTHDAY WISHES
         if self.selection == '1':
             for worker in employees:
                 self.worker = worker
 
-                # if self.compare_api_and_local_data():
-                #     continue
+                if self.compare_api_and_local_data():
+                    continue
 
                 employee = Employee(self.worker, employees)
                 is_valid = ProcessEmployee(employee).validate_employee_to_receive_msg()
