@@ -3,6 +3,27 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# PyCharm
+.idea/**
+.idea/
+.idea
+
+#DB
+config/db/
+config.json
+
+# Environments (going fwd)
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+config/settings/.env
+Pipfile
+Pipfile.lock
+
 # C extensions
 *.so
 
@@ -100,15 +121,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 # Spyder project settings
 .spyderproject
