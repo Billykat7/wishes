@@ -1,11 +1,12 @@
 import requests
 from os                                         import path
 
-from src.core.email                             import SendWishEmail
-from src.db.data                                import JSONData
-from src.models.employee                        import Employee
-from src.utils.operation                        import Operation as ops
-from src.utils.process                          import ProcessEmployee
+from mail                                       import SendWishEmail
+from data                                       import JSONData
+from employee                                   import Employee
+from operation                                  import Operation as ops
+from process                                    import ProcessEmployee
+
 
 
 class GetInput:
@@ -63,9 +64,10 @@ class GetInput:
         employees     = employees_api
 
         self.employees_local = []
-        if path.isfile('db/employees.json'):
+        json_file = 'employees.json'
+        if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
-            self.employees_local = data_local.extract_employee_data()
+            self.employees_local = data_local.extract_employee_data(json_file)
             # employees = self.employees_local
 
         # BIRTHDAY WISHES

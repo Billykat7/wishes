@@ -1,7 +1,7 @@
-from models.factory                 import GetInput
+from factory                        import GetInput
 
 
-def main():
+def start_wish():
     """
         Run the Factory Class.
         Goes through the logic. Pass one employee at the time from the scheduler and send emails
@@ -27,4 +27,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    start_wish()

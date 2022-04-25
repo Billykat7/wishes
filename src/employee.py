@@ -1,4 +1,4 @@
-from src.utils.operation                        import Operation as ops
+from operation                          import Operation as ops
 
 
 class Employee:

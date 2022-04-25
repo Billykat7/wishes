@@ -49,16 +49,22 @@ class SendWishEmail(Thread):
             print('EMAIL NOT SENT !!!')
             return
 
-        with smtplib.SMTP(self.EMAIL_SERVER, self.OUTGOING_PORT) as wish_server:
-            wish_server.ehlo()
-            wish_server.starttls(context=ssl_context)
-            wish_server.ehlo()
+        try:
 
-            wish_server.login(email_address, email_password)
+            with smtplib.SMTP(self.EMAIL_SERVER, self.OUTGOING_PORT) as wish_server:
+                wish_server.ehlo()
+                wish_server.starttls(context=ssl_context)
+                wish_server.ehlo()
 
-            subject = f"{self.title} wishes."
-            body    = f"Happy {self.title} {self.employees}"
-            msg     = f"Subject: {subject}\n\n{body}"
+                wish_server.login(email_address, email_password)
 
-            wish_server.sendmail(email_address, rcv_email_address, msg)
-            print('EMAIL SENT **********')
+                subject = f"{self.title} wishes."
+                body = f"Happy {self.title} {self.employees}"
+                msg = f"Subject: {subject}\n\n{body}"
+
+                wish_server.sendmail(email_address, rcv_email_address, msg)
+                print('EMAIL SENT **********')
+
+        except Exception as e:
+            print('Trouble sending this email.')
+            raise e
