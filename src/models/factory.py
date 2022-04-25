@@ -1,11 +1,11 @@
 import requests
 from os                                         import path
 
-from core.email                                 import SendWishEmail
-from db.data                                    import JSONData
-from models.employee                            import Employee
-from utils.operation                            import Operation as ops
-from utils.process                              import ProcessEmployee
+from src.core.email                             import SendWishEmail
+from src.db.data                                import JSONData
+from src.models.employee                        import Employee
+from src.utils.operation                        import Operation as ops
+from src.utils.process                          import ProcessEmployee
 
 
 class GetInput:
