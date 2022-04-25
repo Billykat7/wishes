@@ -1,14 +1,15 @@
 import requests
 from os                                         import path
 
-from core.anniversary                           import AnniversaryMessage
-from core.birthday                              import BirthdayMessage
+from core.email                                 import SendWishEmail
 from db.data                                    import JSONData
 from models.employee                            import Employee
+from utils.operation                            import Operation as ops
 from utils.process                              import ProcessEmployee
 
 
 class GetInput:
+    current_date = ops.get_today_date()
 
     def __init__(self, selection):
         self.selection   = selection
@@ -18,7 +19,18 @@ class GetInput:
     def compare_api_and_local_data(self):
         for employee in self.employees_local:
             if self.worker['id'] == employee['id']:
-                return True
+                str_date = ''
+                lastNotification     = employee.get('lastNotification')
+                lastBirthdayNotified = employee.get('lastBirthdayNotified')
+                if lastNotification:
+                    str_date = lastNotification
+                elif lastBirthdayNotified:
+                    str_date = lastBirthdayNotified
+
+                if str_date:
+                    last_date = ops.str_to_date(str_date)
+                    if self.current_date.month == last_date.month and self.current_date.day == last_date.day:
+                        return True
         return False
 
     def call_real_endpoint(self):
@@ -41,6 +53,9 @@ class GetInput:
         return data
 
     def get_input_redirect(self):
+
+        birthday_names    = []
+        anniversary_names = []
 
         #TODO: TO REQUEST API ENDPOINT
         data_api      = self.call_real_endpoint()
@@ -65,12 +80,17 @@ class GetInput:
                 is_valid = ProcessEmployee(employee).validate_employee_to_receive_msg()
 
                 if is_valid:
-                    BirthdayMessage(employee)
+                    # BirthdayMessage(employee)
+                    birthday_names.append(employee.name)
+                    print(employee.name)
                     self.worker['lastNotification']     = employee.get_current_date.strftime('%Y-%m-%d')
                     self.worker['lastBirthdayNotified'] = employee.get_current_date.strftime('%Y-%m-%d')
                     self.emp_list.append(self.worker)
                 else:
                     self.emp_na_list.append(self.worker)
+
+            if birthday_names:
+                SendWishEmail(self.selection, birthday_names).start()
 
             if self.emp_list:
                 JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
@@ -90,12 +110,16 @@ class GetInput:
                 is_valid = ProcessEmployee(employee).validate_employee_to_receive_msg()
 
                 if is_valid:
-                    AnniversaryMessage(employee)
+                    # AnniversaryMessage(employee)
+                    anniversary_names.append(employee.name)
                     self.worker['lastNotification']     = employee.get_current_date.strftime('%Y-%m-%d')
                     self.worker['lastBirthdayNotified'] = employee.get_current_date.strftime('%Y-%m-%d')
                     self.emp_list.append(self.worker)
                 else:
                     self.emp_na_list.append(self.worker)
+
+            if anniversary_names:
+                SendWishEmail(self.selection, anniversary_names).start()
 
             if self.emp_list:
                 JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
