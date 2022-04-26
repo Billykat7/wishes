@@ -1,11 +1,14 @@
+import os
+import pathlib
+
 import requests
 from os                                         import path
 
-from mail                                       import SendWishEmail
-from data                                       import JSONData
-from employee                                   import Employee
+from core.mail                                  import SendWishEmail
+from db.data                                    import JSONData
+from core.employee                              import Employee
 from operation                                  import Operation as ops
-from process                                    import ProcessEmployee
+from core.process                               import ProcessEmployee
 
 
 
@@ -55,16 +58,17 @@ class GetInput:
 
     def get_input_redirect(self):
 
-        birthday_names    = []
-        anniversary_names = []
+        birthday_names       = []
+        anniversary_names    = []
+        self.employees_local = []
 
-        #TODO: TO REQUEST API ENDPOINT
         data_api      = self.call_real_endpoint()
         employees_api = data_api['employees']
         employees     = employees_api
 
-        self.employees_local = []
-        json_file = 'employees.json'
+        current_dir = pathlib.Path(__file__).parent
+        json_file   = f'{current_dir}/db/employeesZ.json'
+
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data(json_file)
