@@ -95,6 +95,8 @@ class GetInput:
 
             if birthday_names:
                 SendWishEmail(self.selection, birthday_names).start()
+            else:
+                print('\n ****** NO EMPLOYEE HAS A BIRTHDAY TODAY *******')
 
             if self.emp_list:
                 JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
@@ -124,6 +126,8 @@ class GetInput:
 
             if anniversary_names:
                 SendWishEmail(self.selection, anniversary_names).start()
+            else:
+                print('\n ****** NO EMPLOYEE HAS A WORK-ANNIVERSARY TODAY *******')
 
             if self.emp_list:
                 JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
