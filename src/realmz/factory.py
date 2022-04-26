@@ -65,12 +65,12 @@ class GetInput:
         employees     = employees_api
 
         current_dir = pathlib.Path(__file__).parent
-        json_file   = f'{current_dir}/db/employeesZ.json'
+        json_file   = f'{current_dir}/db/employees.json'
 
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data(json_file)
-            employees = self.employees_local
+            # employees = self.employees_local
 
         # BIRTHDAY WISHES
         if self.selection == '1':
