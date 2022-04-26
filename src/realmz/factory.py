@@ -1,15 +1,13 @@
-import os
 import pathlib
 
 import requests
 from os                                         import path
 
-from core.mail                                  import SendWishEmail
-from db.data                                    import JSONData
 from core.employee                              import Employee
-from operation                                  import Operation as ops
+from core.mail                                  import SendWishEmail
 from core.process                               import ProcessEmployee
-
+from db.data                                    import JSONData
+from operation                                  import Operation as ops
 
 
 class GetInput:
@@ -72,7 +70,7 @@ class GetInput:
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data(json_file)
-            # employees = self.employees_local
+            employees = self.employees_local
 
         # BIRTHDAY WISHES
         if self.selection == '1':
