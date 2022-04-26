@@ -17,5 +17,9 @@ how many times the service is scheduled to run on a specific day.
 Note: The work anniversary requirement does not need to be coded but the solution design should cater for the
 additional requirement.
 
+
 #API Service
 https://interview-assessment-1.realmdigital.co.za/
+
+#PyPI
+https://pypi.org/project/realmz/
