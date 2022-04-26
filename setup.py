@@ -3,7 +3,7 @@ from setuptools                         import setup, find_packages
 
 setup(
     name='realmz',
-    version='0.0.10',
+    version='0.0.11',
     license='MIT',
     author='Billy Katalayi',
     author_email='billysbn7@gmail.com',
@@ -28,5 +28,5 @@ setup(
     #         "realmz.__main__:main",
     #     ]
     # },
-    # include_package_data=True,
+    include_package_data=True,
 )
