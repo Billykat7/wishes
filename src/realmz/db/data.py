@@ -30,7 +30,7 @@ class JSONData(Thread):
 
     @staticmethod
     def extract_exc_employee_data():
-        with open(f"exc_employees.json") as employees_file:
+        with open("exc_employees.json") as employees_file:
             exc_employees = json.load(employees_file)
             return exc_employees
 

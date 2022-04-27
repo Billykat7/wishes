@@ -1,4 +1,5 @@
 import pathlib
+import time
 
 import requests
 from os                                         import path
@@ -13,8 +14,9 @@ from operation                                  import Operation as ops
 class GetInput:
     current_date = ops.get_today_date()
 
-    def __init__(self, selection):
+    def __init__(self, selection, **kwargs):
         self.selection   = selection
+        self.crontab     = kwargs.get('crontab')
         self.emp_list    = []
         self.emp_na_list = []
     
@@ -65,74 +67,69 @@ class GetInput:
         employees     = employees_api
 
         current_dir = pathlib.Path(__file__).parent
-        json_file   = f'{current_dir}/db/employees.json'
+        json_file   = f'{current_dir}/db/employeesZ.json'
 
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data(json_file)
-            # employees = self.employees_local
+            employees = self.employees_local
 
         # BIRTHDAY WISHES
         if self.selection == '1':
-            for worker in employees:
-                self.worker = worker
-
-                if self.compare_api_and_local_data():
-                    continue
-
-                employee = Employee(self.worker, employees)
-                is_valid = ProcessEmployee(employee).validate_employee_to_receive_msg()
-
-                if is_valid:
-                    # BirthdayMessage(employee)
-                    birthday_names.append(employee.name)
-                    print(employee.name)
-                    self.worker['lastNotification']     = employee.get_current_date.strftime('%Y-%m-%d')
-                    self.worker['lastBirthdayNotified'] = employee.get_current_date.strftime('%Y-%m-%d')
-                    self.emp_list.append(self.worker)
-                else:
-                    self.emp_na_list.append(self.worker)
-
-            if birthday_names:
-                SendWishEmail(self.selection, birthday_names).start()
-            else:
-                print('\n ****** NO EMPLOYEE HAS A BIRTHDAY TODAY *******')
-
-            if self.emp_list:
-                JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
-
-            if self.emp_na_list:
-                JSONData(None, self.emp_na_list, 'N', None, self.emp_na_list).start()
+            self.wish_message_sender(employees, birthday_names)
 
         # ANNIVERSARY WISHES
-        if self.selection == '2':
-            for worker in employees:
-                self.worker = worker
+        elif self.selection == '2':
+            self.wish_message_sender(employees, anniversary_names)
 
-                if self.compare_api_and_local_data():
-                    continue
-
-                employee = Employee(self.worker, employees)
-                is_valid = ProcessEmployee(employee).validate_employee_to_receive_msg()
-
-                if is_valid:
-                    # AnniversaryMessage(employee)
-                    anniversary_names.append(employee.name)
-                    self.worker['lastNotification']     = employee.get_current_date.strftime('%Y-%m-%d')
-                    self.worker['lastBirthdayNotified'] = employee.get_current_date.strftime('%Y-%m-%d')
-                    self.emp_list.append(self.worker)
-                else:
-                    self.emp_na_list.append(self.worker)
-
-            if anniversary_names:
-                SendWishEmail(self.selection, anniversary_names).start()
-            else:
-                print('\n ****** NO EMPLOYEE HAS A WORK-ANNIVERSARY TODAY *******')
-
-            if self.emp_list:
-                JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
-
-            if self.emp_na_list:
-                JSONData(None, self.emp_na_list, 'N', None, self.emp_na_list).start()
+        else:
+            print('\t *** NO VALID SELECTION RECORDED ***')
+            print('\t *** PROGRAM WILL EXIT NOW ***')
+            time.sleep(2)
 
         return
+
+    def wish_message_sender(self, employees, wish_names):
+
+        for worker in employees:
+            self.worker = worker
+
+            if self.compare_api_and_local_data():
+                continue
+
+            employee = Employee(self.worker, employees)
+
+            if self.selection == '1':
+                is_valid = ProcessEmployee(employee).validate_birthdays_employees()
+            else:
+                is_valid = ProcessEmployee(employee).validate_anniversary_employees()
+
+            if is_valid:
+                # BirthdayMessage(employee)
+                wish_names.append(employee.name)
+                print(employee.name)
+                self.worker['lastNotification'] = employee.get_current_date.strftime('%Y-%m-%d')
+
+                if self.selection == '1':
+                    self.worker['lastBirthdayNotified'] = employee.get_current_date.strftime('%Y-%m-%d')
+
+                self.emp_list.append(self.worker)
+            else:
+                self.emp_na_list.append(self.worker)
+
+        if self.emp_list:
+            JSONData(self.emp_list, None, 'Y', self.emp_list, None).start()
+
+        if self.emp_na_list:
+            JSONData(None, self.emp_na_list, 'N', None, self.emp_na_list).start()
+
+        if wish_names:
+            SendWishEmail(self.selection, wish_names, crontab=self.crontab).start()
+        else:
+            if self.selection == '1':
+                print('\n ****** NO EMPLOYEE HAS A BIRTHDAY TODAY *******')
+
+            if self.selection == '2':
+                print('\n ****** NO EMPLOYEE HAS A WORK-ANNIVERSARY TODAY *******')
+
+        return self.selection

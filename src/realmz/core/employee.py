@@ -33,8 +33,16 @@ class Employee:
         return True
 
     @property
-    def is_today_celebration_day(self):
+    def is_today_birthday_celebration(self):
         return (self._current_date.month == self.dob.month and self._current_date.day == self.dob.day)
+
+
+    @property
+    def is_today_anniversary_celebration(self):
+        return (
+                self._current_date.month == self.__emp_start_date.month and
+                self._current_date.day == self.__emp_start_date.day
+        )
 
     @property
     def has_started_working(self):

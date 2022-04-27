@@ -1,6 +1,8 @@
 import os
 import smtplib
 import ssl
+import time
+
 from dotenv                                 import load_dotenv
 from threading                              import Thread
 
@@ -9,15 +11,16 @@ load_dotenv()
 
 class SendWishEmail(Thread):
 
-    def __init__(self, wish_type, birth_employees, **kwargs):
+    def __init__(self, wish_type, employees_list, **kwargs):
         super(SendWishEmail, self).__init__()
+        self.crontab         = kwargs.get('crontab')
         self.GMAIL_PORT      = os.getenv('GMAIL_PORT')
         self.GMAIL_SERVER    = os.getenv('GMAIL_SERVER')
         self.GMAIL_SENDER    = os.getenv('GMAIL_SENDER')
         self.GMAIL_PASSWORD  = os.getenv('GMAIL_PASSWORD')
         self.GMAIL_RECEIVER  = os.getenv('GMAIL_RECEIVER')
-        self.birth_employees = birth_employees
-        self.ann_employees   = kwargs.get('anniversary_employees')
+        self.birth_employees = employees_list
+        self.ann_employees   = employees_list #kwargs.get('anniversary_employees')
         self.wish_type       = wish_type
         self.title           = 'Birthday'
         self.employees       = ','.join(self.birth_employees)
@@ -56,10 +59,12 @@ class SendWishEmail(Thread):
             if rcv_email_address:
                 self.GMAIL_RECEIVER = rcv_email_address
 
-            if not input_server or not input_port or not email_address or not email_password or \
-                    not rcv_email_address:
+            if not self.crontab and (not input_server or not input_port or not email_address or
+                                     not email_password or not rcv_email_address):
                 print("\nSENDER'S EMAIL & PASSWORD, AND RECEIVER EMAIL ARE REQUIRED!")
-                print('EMAIL NOT SENT !!!')
+                print('EMAIL NOT SENT !!!\n')
+                print('******** THANK YOU FOR USING OUR APP *********')
+                time.sleep(1)
                 return
 
         # Create a secure SSL context
@@ -79,7 +84,9 @@ class SendWishEmail(Thread):
                 msg = f"Subject: {subject}\n\n{body}"
 
                 wish_server.sendmail(self.GMAIL_SENDER, self.GMAIL_RECEIVER, msg)
-                print('EMAIL SENT **********')
+                print('EMAIL SENT **********\n')
+                print('******** THANK YOU FOR USING OUR APP *********')
+                time.sleep(1)
 
         except Exception as e:
             print('Trouble sending this email.')
