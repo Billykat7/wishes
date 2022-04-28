@@ -12,6 +12,12 @@ from operation                                  import Operation as ops
 
 
 class GetInput:
+    """
+     - Takes your selection to redirect to Birthday, Anniversary or other wish process
+     - With method that calls the API Endpoint to extract employee data
+     - With a method that compares the API data with the local copy of employees already processed.
+     -
+    """
     current_date = ops.get_today_date()
 
     def __init__(self, selection, **kwargs):
@@ -21,6 +27,10 @@ class GetInput:
         self.emp_na_list = []
     
     def compare_api_and_local_data(self):
+        """
+        Compares the API data with the local data (located in employees.json or employees_na.json)
+        :return: boolean
+        """
         for employee in self.employees_local:
             if self.worker['id'] == employee['id']:
                 str_date = ''
@@ -38,6 +48,10 @@ class GetInput:
         return False
 
     def call_real_endpoint(self):
+        """
+        Calls the API endpoint to extract employees' data
+        :return: data (dict)
+        """
 
         employees     = []
         exc_employees = []
@@ -57,6 +71,11 @@ class GetInput:
         return data
 
     def get_input_redirect(self):
+        """
+        Processes the selection choice. Birthday, Anniversary or other
+        Calls the corresponding class method or function to process the selection
+        :return: selection (The input choice)
+        """
 
         birthday_names       = []
         anniversary_names    = []
@@ -72,7 +91,7 @@ class GetInput:
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
             self.employees_local = data_local.extract_employee_data(json_file)
-            employees = self.employees_local
+            # employees = self.employees_local
 
         # BIRTHDAY WISHES
         if self.selection == '1':
@@ -87,9 +106,15 @@ class GetInput:
             print('\t *** PROGRAM WILL EXIT NOW ***')
             time.sleep(2)
 
-        return
+        return self.selection
 
     def wish_message_sender(self, employees, wish_names):
+        """
+        Common Method that sends the message (Birthday, Anniversary, etc...)
+        :param employees: employees list from the API data
+        :param wish_names: validated employees list to receive the message
+        :return: selection (The input choice)
+        """
 
         for worker in employees:
             self.worker = worker

@@ -10,6 +10,9 @@ from threading                              import Thread
 load_dotenv()
 
 class SendWishEmail(Thread):
+    """
+    Threaded Class to send emails without disrupting the process of the application
+    """
 
     def __init__(self, wish_type, employees_list, **kwargs):
         super(SendWishEmail, self).__init__()
@@ -29,9 +32,22 @@ class SendWishEmail(Thread):
             self.employees = ','.join(self.ann_employees)
 
     def run(self):
+        """Start the thread's activity.
+
+        It must be called at most once per thread object. It arranges for the
+        object's run() method to be invoked in a separate thread of control.
+
+        This method will raise a RuntimeError if called more than once on the
+        same thread object.
+
+        """
         self.send_generic_email()
 
     def send_generic_email(self):
+        """
+        Sends the email with valid employees
+        :return:
+        """
 
         print("\n********** SENDING EMAIL ****************\n")
         print("SETTINGS ARE AS FOLLOWS:  \n")

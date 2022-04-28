@@ -10,6 +10,10 @@ class Settings:
         self.crontab = kwargs.get('crontab')
 
     def get_settings(self):
+        """
+        Prompts user to input the backend settings for celery if it's used for scheduling tasks
+        :return:
+        """
 
         print(f'\n***** Current Backend ==> {self.backend}')
         print(f'***** Current Broker ==> {self.broker}')

@@ -1,9 +1,16 @@
 class ProcessEmployee:
+    """
+    Processes the employees to receive the message
+    """
 
     def __init__(self, employee):
         self.employee = employee
 
     def validate_birthdays_employees(self):
+        """
+        Validates birthday employees
+        :return: boolean
+        """
 
         if self.employee.get_last_birthday_notification != self.employee.get_current_date:
             if self.employee.has_started_working:
@@ -14,6 +21,10 @@ class ProcessEmployee:
         return False
 
     def validate_anniversary_employees(self):
+        """
+        Validates anniversary employees
+        :return: boolean
+        """
 
         if self.employee.get_last_notification != self.employee.get_current_date:
             if self.employee.has_started_working:

@@ -2,6 +2,11 @@ from operation                            import Operation as ops
 
 
 class Employee:
+    """
+    Processes employee data as received from the API, one by one.
+    Converts str date to date or datetime object where needed
+    Avails properties (methods) with the employee's processed data
+    """
     _current_date = ops.get_today_date()
 
     def __init__(self, employee_info, excluded_employees):
