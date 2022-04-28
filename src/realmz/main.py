@@ -4,7 +4,8 @@ from .factory                                    import GetInput
 
 def start_wish():
     """
-        Run the Factory Class.
+        The App starts here.
+        Runs the Factory Class.
         Goes through the logic. Pass one employee at the time from the scheduler and send emails
     """
 

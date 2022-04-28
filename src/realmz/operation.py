@@ -3,6 +3,10 @@ from datetime                               import datetime
 
 
 class Operation:
+    """
+    Processes str dates and avails today's date
+    Avails methods with date data
+    """
 
     @staticmethod
     def is_leap_year(year):
