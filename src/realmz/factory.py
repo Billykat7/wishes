@@ -4,11 +4,11 @@ import time
 import requests
 from os                                         import path
 
-from core.employee                              import Employee
-from core.mail                                  import SendWishEmail
-from core.process                               import ProcessEmployee
-from db.data                                    import JSONData
-from operation                                  import Operation as ops
+from .core.employee                              import Employee
+from .core.mail                                  import SendWishEmail
+from .core.process                               import ProcessEmployee
+from .db.data                                    import JSONData
+from .operation                                  import Operation as ops
 
 
 class GetInput:
@@ -67,7 +67,7 @@ class GetInput:
         employees     = employees_api
 
         current_dir = pathlib.Path(__file__).parent
-        json_file   = f'{current_dir}/db/employeesZ.json'
+        json_file   = f'{current_dir}/db/employees.json'
 
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)

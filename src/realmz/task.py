@@ -1,7 +1,7 @@
 import schedule
 import time
-from factory                                    import GetInput
-from settings                                   import Settings
+from .factory                                    import GetInput
+from .settings                                   import Settings
 
 
 SETTINGS = Settings(crontab='Y')

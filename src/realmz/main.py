@@ -1,5 +1,5 @@
-from db.db                                      import DatabaseOperation
-from factory                                    import GetInput
+from .db.db                                      import DatabaseOperation
+from .factory                                    import GetInput
 
 
 def start_wish():
