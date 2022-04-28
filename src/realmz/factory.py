@@ -86,7 +86,7 @@ class GetInput:
         employees     = employees_api
 
         current_dir = pathlib.Path(__file__).parent
-        json_file   = f'{current_dir}/db/employeesZ.json'
+        json_file   = f'{current_dir}/db/employees.json'
 
         if path.isfile(json_file):
             data_local           = JSONData(None, None, None)
